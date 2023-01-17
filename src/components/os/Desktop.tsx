@@ -5,7 +5,7 @@ import Doom from '../applications/Doom';
 import OregonTrail from '../applications/OregonTrail';
 import ShutdownSequence from './ShutdownSequence';
 // import ThisComputer from '../applications/ThisComputer';
-import Hugordle from '../applications/Henordle';
+import Wordle from '../applications/Wordle';
 import Toolbar from './Toolbar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
 import Scrabble from '../applications/Scrabble';
@@ -54,11 +54,11 @@ const APPLICATIONS: {
         shortcutIcon: 'scrabbleIcon',
         component: Scrabble,
     },
-    hugordle: {
-        key: 'henordle',
-        name: 'Henordle',
+    wordle: {
+        key: 'wordle',
+        name: 'Wordle',
         shortcutIcon: 'henordleIcon',
-        component: Hugordle,
+        component: Wordle,
     },
     credits: {
         key: 'credits',
