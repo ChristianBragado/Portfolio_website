@@ -87,7 +87,7 @@ const SoftwareProjects: React.FC<SoftwareProjectsProps> = (props) => {
                         <a
                             rel="noreferrer"
                             target="_blank"
-                            href="https://github.com/henryjeff/portfolio-website"
+                            href="https://portfolio-website-five-zeta.vercel.app"
                         >
                             <p>
                                 <b>[GitHub]</b> - 3D Site Repository
