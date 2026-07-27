@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import neverGiveUp from '../../assets/pictures/neverGiveUp.jpg';
 import eePic from '../../assets/pictures/ee.jpg';
 import happyMac from '../../assets/icons/happyMac.png';
+import alertSound from '../../assets/audio/alert.mp3';
+import macbootSound from '../../assets/audio/macboot.mp3';
 export interface ShutdownSequenceProps {
     numShutdowns: number;
     setShutdown: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +31,36 @@ const ShutdownSequence: React.FC<ShutdownSequenceProps> = ({
     const [loading, setLoading] = useState<boolean>(true);
     const [rebooting, setRebooting] = useState(false);
     const [ee, setEE] = useState(false);
+
+    // System 7 'Simple Beep' on failure lines, Mac boot pair on reboot.
+    // Lazily constructed: useRef(new Audio(...)) would re-instantiate on
+    // every keystroke render of the typed sequence.
+    const alertRef = useRef<HTMLAudioElement>();
+    const bootRef = useRef<HTMLAudioElement>();
+    if (!alertRef.current) alertRef.current = new Audio(alertSound);
+    if (!bootRef.current) bootRef.current = new Audio(macbootSound);
+    const beepedRef = useRef<{ [key: string]: boolean }>({});
+
+    const playAlert = (marker: string) => {
+        if (beepedRef.current[marker] || !alertRef.current) return;
+        beepedRef.current[marker] = true;
+        alertRef.current.volume = 0.5;
+        alertRef.current.currentTime = 0;
+        alertRef.current.play().catch(() => {});
+    };
+
+    useEffect(() => {
+        if (text.includes('Transfer Failed')) playAlert('transfer');
+        if (text.includes('FATAL ERROR')) playAlert('fatal');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [text]);
+
+    useEffect(() => {
+        if (rebooting && bootRef.current) {
+            bootRef.current.volume = 0.55;
+            bootRef.current.play().catch(() => {});
+        }
+    }, [rebooting]);
 
     const getTime = () => {
         const date = new Date();
