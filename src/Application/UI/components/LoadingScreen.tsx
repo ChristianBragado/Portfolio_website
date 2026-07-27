@@ -98,6 +98,9 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
 
     const start = useCallback(() => {
         setLoadingOverlayOpacity(0);
+        // Hide the start popup so its container stops receiving pointer
+        // events — otherwise it invisibly blocks the 3D scene and iframe.
+        setStartPopupOpacity(0);
         eventBus.dispatch('loadingScreenDone', {});
         const ui = document.getElementById('ui');
         if (ui) {
@@ -192,8 +195,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             <div
                 style={Object.assign({}, styles.popupContainer, {
                     opacity: startPopupOpacity,
-                    pointerEvents:
-                        startPopupOpacity === 0 ? 'none' : 'all',
+                    pointerEvents: startPopupOpacity === 0 ? 'none' : 'auto',
                 })}
             >
                 <div style={styles.startColumn}>
