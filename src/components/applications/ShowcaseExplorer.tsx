@@ -9,6 +9,7 @@ import Contact from '../showcase/Contact';
 import SoftwareProjects from '../showcase/projects/Software';
 import VerticalNavbar from '../showcase/VerticalNavbar';
 import useInitialWindowSize from '../../hooks/useInitialWindowSize';
+import EMBED_INSET from '../../constants/layout';
 
 export interface ShowcaseExplorerProps extends WindowAppProps {}
 
@@ -17,12 +18,11 @@ const ShowcaseExplorer: React.FC<ShowcaseExplorerProps> = (props) => {
 
     return (
         <Window
-            top={24}
+            top={32 + EMBED_INSET.top}
             left={56}
             width={initWidth}
             height={initHeight}
-            windowTitle="Christian Hugo - Showcase 2022"
-            windowBarIcon="windowExplorerIcon"
+            windowTitle="Christian Hugo — Showcase"
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}

@@ -1,11 +1,18 @@
 const colors = {
     white: '#FFFFFF',
     black: '#000000',
-    turquoise: '#3e9697',
-    lightGray: '#c3c6ca',
-    darkGray: '#86898d',
-    blue: '#0000a3',
-    darkBlue: '#0000aa',
+    // System 7 palette
+    desktop: '#7f7f7f', // 50% gray desktop
+    titleInactive: '#999999', // inactive title text
+    scrollThumb: '#9999cc', // 7.5 lavender scrollbar thumb
+    menuHighlight: '#000000', // menu selection (black, white text)
+    selectBlue: '#333399', // icon/text selection accent
+    // legacy keys (remapped so untouched call sites go Mac automatically)
+    turquoise: '#7f7f7f', // old desktop teal -> System 7 gray
+    lightGray: '#dddddd',
+    darkGray: '#888888',
+    blue: '#333399',
+    darkBlue: '#000000',
     red: '#ff0000',
 } as const;
 

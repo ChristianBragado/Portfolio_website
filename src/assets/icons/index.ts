@@ -18,6 +18,11 @@ import windowExplorerIcon from './windowExplorerIcon.png';
 import windowsStartIcon from './windowsStartIcon.png';
 import scrabbleIcon from './scrabbleIcon.png';
 import close from './close.png';
+import appleLogo from './appleLogo.png';
+import macHD from './macHD.png';
+import macTrash from './macTrash.png';
+import showcaseDoc from './showcaseDoc.png';
+import appMenuGeneric from './appMenuGeneric.png';
 
 const icons = {
     windowResize: windowResize,
@@ -38,6 +43,11 @@ const icons = {
     windowExplorerIcon: windowExplorerIcon,
     windowsStartIcon: windowsStartIcon,
     trailIcon: trailIcon,
+    appleLogo: appleLogo,
+    macHD: macHD,
+    macTrash: macTrash,
+    showcaseDoc: showcaseDoc,
+    appMenuGeneric: appMenuGeneric,
 };
 
 export type IconName = keyof typeof icons;

@@ -17,7 +17,24 @@ code {
 }
 
 
-/* 8px */
+/* System 7 fonts. Chicago (ChicagoFLF, freeware) is the OS chrome face. */
+@font-face {
+    font-family: Chicago;
+    src: url(./assets/fonts/ChicagoFLF.woff2) format('woff2'),
+        url(./assets/fonts/ChicagoFLF.ttf);
+}
+
+@font-face {
+    font-family: Geneva9;
+    src: url(./assets/fonts/FindersKeepers.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: MonacoWeb;
+    src: url(./assets/fonts/monaco.woff2) format('woff2');
+}
+
+/* Legacy family names kept so existing components restyle without edits */
 @font-face {
     font-family: MSSerif;
     src: url(./assets/fonts/MSSansSerif.ttf);
@@ -35,7 +52,7 @@ code {
 
 @font-face {
     font-family: Terminal;
-    src: url(./assets/fonts/Terminal.ttf);
+    src: url(./assets/fonts/monaco.woff2) format('woff2');
 }
 
 
@@ -67,20 +84,21 @@ p b {
 }
 
 .showcase-header {
-    font-family: lores-15-bold-alt-oakland;
-    font-size: 15px;
-    color: white;
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
 }
 
 .toolbar-text {
-    font-family: lores-15-bold-alt-oakland;
-    font-size: 18px;
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
     color: black;
 }
 
 h1 {
-    font-family: gastromond, sans-serif;
-    font-size: 64px;
+    font-family: Chicago, gastromond, sans-serif;
+    font-size: 56px;
+    font-weight: normal;
 }
 
 h2 {
@@ -110,19 +128,16 @@ li {
 }
 
 :root {
+    /* System 7: flat white surfaces, hairline black borders */
     --button-highlight: #ffffff;
-    --button-face: #747474;
-    --button-shadow: #808080;
-    --window-frame: #2b2b2b;
-    --surface: #c0c0c0;
-    --surface-hover: #e9e9e9;
-    --border-field: inset -1px -1px var(--button-highlight),
-        inset 1px 1px var(--button-shadow), inset -2px -2px var(--button-face),
-        inset 2px 2px var(--window-frame);
-    --border-raised-outer: inset -1px -1px var(--window-frame),
-        inset 1px 1px var(--button-highlight);
-    --border-raised-inner: inset -2px -2px var(--button-shadow),
-        inset 2px 2px var(--button-face);
+    --button-face: #dddddd;
+    --button-shadow: #bbbbbb;
+    --window-frame: #000000;
+    --surface: #dddddd;
+    --surface-hover: #eeeeee;
+    --border-field: inset 0 0 0 1px var(--window-frame);
+    --border-raised-outer: inset 0 0 0 1px var(--window-frame);
+    --border-raised-inner: inset 0 0 0 2px var(--button-highlight);
 }
 
 .big-button-container {
@@ -188,10 +203,10 @@ input:active {
 
 .site-button {
     box-sizing: border-box;
-    background: var(--surface-hover);
-    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
-    border-radius: 0;
-    border: none;
+    background: white;
+    box-shadow: none;
+    border-radius: 7px;
+    border: 1px solid black;
     color: black;
     font-size: 18px;
     /* flex-shrink: 1; */
@@ -208,16 +223,18 @@ input:active {
 }
 
 .site-button:hover {
-    background-color: var(--surface);
+    background-color: var(--surface-hover);
 }
 
 .site-button:active {
-    background-color: var(--button-shadow);
+    background-color: black;
+    color: white;
 }
 
 .site-button:disabled {
-    background-color: var(--button-shadow);
-    /* cursor cross */
+    color: #999999;
+    border-color: #999999;
+    background: white;
     cursor: not-allowed;
 }
 
@@ -396,7 +413,100 @@ input:active {
 }
 
 .start-menu-option:hover {
-    background-color: #0000aa;
+    background-color: #000000;
     cursor: pointer;
     color: white;
+}
+
+/* ---------- System 7 chrome ---------- */
+
+/* Menu bar drop-down */
+.sys-menu {
+    position: absolute;
+    top: 20px;
+    background: white;
+    border: 1px solid black;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.85);
+    padding: 2px 0;
+    min-width: 180px;
+    z-index: 100001;
+    flex-direction: column;
+    display: flex;
+}
+
+.sys-menu-item {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
+    padding: 3px 16px 3px 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sys-menu-item:hover {
+    background: black;
+    color: white;
+}
+
+.sys-menu-item.disabled {
+    color: #999999;
+    pointer-events: none;
+}
+
+.sys-menu-sep {
+    height: 1px;
+    background: #999999;
+    margin: 3px 1px;
+}
+
+.sys-menu-label {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
+    padding: 2px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.sys-menu-label.open {
+    background: black;
+    color: white;
+}
+
+/* System 7 title bar pinstripes (6 lines over 19px) */
+.sys-titlebar-stripes {
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        black 2px,
+        black 3px
+    );
+    background-size: 100% 3px;
+    background-clip: content-box;
+}
+
+/* Scrollbars: white track, hairline border, lavender thumb */
+::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-left: 1px solid #000000;
+}
+::-webkit-scrollbar-thumb {
+    background: #9999cc;
+    border: 1px solid #000000;
+}
+::-webkit-scrollbar-corner {
+    background: #ffffff;
+    border-left: 1px solid #000000;
+    border-top: 1px solid #000000;
 }

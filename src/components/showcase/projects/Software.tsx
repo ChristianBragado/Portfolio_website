@@ -1,10 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import saga from '../../../assets/pictures/projects/software/saga.mp4';
-// @ts-ignore
 import computer from '../../../assets/pictures/projects/software/computer.mp4';
-// @ts-ignore
-import scroll from '../../../assets/pictures/projects/software/scroll.mp4';
 import ResumeDownload from '../ResumeDownload';
 import VideoAsset from '../../general/VideoAsset';
 
@@ -24,7 +20,7 @@ const SoftwareProjects: React.FC<SoftwareProjectsProps> = (props) => {
             <ResumeDownload />
             <br />
             <div className="text-block">
-                <h2></h2>
+                
                 <br />
                 <p>
                    

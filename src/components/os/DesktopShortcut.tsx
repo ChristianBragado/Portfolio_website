@@ -91,7 +91,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
     return (
         <div
             id={`${shortcutId}`}
-            style={Object.assign({}, styles.appShortcut, scaledStyle)}
+            style={styles.appShortcut}
             onMouseDown={handleClickShortcut}
             ref={containerRef}
         >
@@ -108,7 +108,7 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                         }
                     )}
                 />
-                <Icon icon={icon} style={styles.icon} />
+                <Icon icon={icon} size={32} style={styles.icon} />
             </div>
             <div
                 className={
@@ -119,14 +119,18 @@ const DesktopShortcut: React.FC<DesktopShortcutProps> = ({
                         : ''
                 }
                 id={`${shortcutId}`}
-                style={isSelected ? { backgroundColor: colors.blue } : {}}
+                style={{
+                    backgroundColor: isSelected ? colors.black : colors.white,
+                }}
             >
                 <p
                     id={`${shortcutId}`}
                     style={Object.assign(
                         {},
                         styles.shortcutText,
-                        invertText && !isSelected && { color: 'black' }
+                        isSelected
+                            ? { color: 'white' }
+                            : { color: 'black' }
                     )}
                 >
                     {shortcutName}
@@ -149,11 +153,13 @@ const styles: StyleSheetCSS = {
     shortcutText: {
         cursor: 'pointer',
         textOverflow: 'wrap',
-        fontFamily: 'MSSerif',
+        fontFamily: 'Geneva9, MSSerif',
         color: 'white',
         fontSize: 8,
-        paddingRight: 2,
-        paddingLeft: 2,
+        paddingRight: 3,
+        paddingLeft: 3,
+        paddingTop: 1,
+        paddingBottom: 1,
     },
     iconContainer: {
         cursor: 'pointer',

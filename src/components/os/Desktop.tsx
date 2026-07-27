@@ -6,7 +6,8 @@ import OregonTrail from '../applications/OregonTrail';
 import ShutdownSequence from './ShutdownSequence';
 // import ThisComputer from '../applications/ThisComputer';
 import Wordle from '../applications/Wordle';
-import Toolbar from './Toolbar';
+import EMBED_INSET from '../../constants/layout';
+import MenuBar from './MenuBar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
 import Scrabble from '../applications/Scrabble';
 import { IconName } from '../../assets/icons';
@@ -33,7 +34,7 @@ const APPLICATIONS: {
     showcase: {
         key: 'showcase',
         name: 'My Showcase',
-        shortcutIcon: 'showcaseIcon',
+        shortcutIcon: 'showcaseDoc',
         component: ShowcaseExplorer,
     },
     trail: {
@@ -201,6 +202,42 @@ const Desktop: React.FC<DesktopProps> = (props) => {
         [getHighestZIndex]
     );
 
+    // Open an app from the menu bar: focus it if already open, else launch it
+    const openApp = useCallback(
+        (key: string) => {
+            const app = APPLICATIONS[key];
+            if (!app) return;
+            if (windows[key]) {
+                setWindows((prevWindows) => ({
+                    ...prevWindows,
+                    [key]: {
+                        ...prevWindows[key],
+                        minimized: false,
+                        zIndex: getHighestZIndex() + 1,
+                    },
+                }));
+                return;
+            }
+            addWindow(
+                app.key,
+                <app.component
+                    onInteract={() => onWindowInteract(app.key)}
+                    onMinimize={() => minimizeWindow(app.key)}
+                    onClose={() => removeWindow(app.key)}
+                    key={app.key}
+                />
+            );
+        },
+        [
+            windows,
+            addWindow,
+            getHighestZIndex,
+            onWindowInteract,
+            minimizeWindow,
+            removeWindow,
+        ]
+    );
+
     return !shutdown ? (
         <div style={styles.desktop}>
             {/* For each window in windows, loop over and render  */}
@@ -225,11 +262,22 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                 );
             })}
             <div style={styles.shortcuts}>
+                <div
+                    style={Object.assign({}, styles.shortcutContainer, {
+                        top: 0,
+                    })}
+                >
+                    <DesktopShortcut
+                        icon="macHD"
+                        shortcutName="Macintosh HD"
+                        onOpen={() => openApp('showcase')}
+                    />
+                </div>
                 {shortcuts.map((shortcut, i) => {
                     return (
                         <div
                             style={Object.assign({}, styles.shortcutContainer, {
-                                top: i * 104,
+                                top: (i + 1) * 88,
                             })}
                             key={shortcut.shortcutName}
                         >
@@ -242,10 +290,23 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                     );
                 })}
             </div>
-            <Toolbar
+            <div style={styles.trash}>
+                <DesktopShortcut
+                    icon="macTrash"
+                    shortcutName="Trash"
+                    onOpen={() => {}}
+                />
+            </div>
+            <MenuBar
                 windows={windows}
                 toggleMinimize={toggleMinimize}
                 shutdown={startShutdown}
+                openApp={openApp}
+                apps={Object.keys(APPLICATIONS).map((key) => ({
+                    key,
+                    name: APPLICATIONS[key].name,
+                    icon: APPLICATIONS[key].shortcutIcon,
+                }))}
             />
         </div>
     ) : (
@@ -260,7 +321,14 @@ const styles: StyleSheetCSS = {
     desktop: {
         minHeight: '100%',
         flex: 1,
-        backgroundColor: Colors.turquoise,
+        backgroundColor: Colors.desktop,
+        // System 7 50% dither desktop pattern
+        backgroundImage: `linear-gradient(45deg, #868686 25%, transparent 25%),
+            linear-gradient(-45deg, #868686 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #868686 75%),
+            linear-gradient(-45deg, transparent 75%, #868686 75%)`,
+        backgroundSize: '2px 2px',
+        backgroundPosition: '0 0, 0 1px, 1px -1px, -1px 0px',
     },
     shutdown: {
         minHeight: '100%',
@@ -272,8 +340,15 @@ const styles: StyleSheetCSS = {
     },
     shortcuts: {
         position: 'absolute',
-        top: 16,
-        left: 6,
+        top: 34 + EMBED_INSET.top,
+        right: 14 + EMBED_INSET.right,
+        width: 64,
+    },
+    trash: {
+        position: 'absolute',
+        bottom: 16 + EMBED_INSET.bottom,
+        right: 14 + EMBED_INSET.right,
+        width: 64,
     },
     minimized: {
         pointerEvents: 'none',

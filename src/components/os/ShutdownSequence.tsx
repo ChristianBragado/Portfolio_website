@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import neverGiveUp from '../../assets/pictures/neverGiveUp.jpg';
 import eePic from '../../assets/pictures/ee.jpg';
+import happyMac from '../../assets/icons/happyMac.png';
 export interface ShutdownSequenceProps {
     numShutdowns: number;
     setShutdown: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +27,7 @@ const ShutdownSequence: React.FC<ShutdownSequenceProps> = ({
 }) => {
     const [text, setText] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
+    const [rebooting, setRebooting] = useState(false);
     const [ee, setEE] = useState(false);
 
     const getTime = () => {
@@ -233,11 +235,13 @@ const ShutdownSequence: React.FC<ShutdownSequenceProps> = ({
                 if (numShutdowns === 9) {
                     delay(10000).then(() => {
                         setLoading(true);
+                        setRebooting(true);
                         delay(6000).then(() => {
                             setShutdown(false);
                         });
                     });
                 } else if (numShutdowns === 10) {
+                    // Final shutdown: stay dark, no Welcome splash
                     typeText(0, '', shutdown, setText, () => {
                         setLoading(true);
                         delay(6000).then(() => {
@@ -248,6 +252,7 @@ const ShutdownSequence: React.FC<ShutdownSequenceProps> = ({
                 } else {
                     typeText(0, '', shutdown, setText, () => {
                         setLoading(true);
+                        setRebooting(true);
                         delay(6000).then(() => {
                             setShutdown(false);
                         });
@@ -261,6 +266,17 @@ const ShutdownSequence: React.FC<ShutdownSequenceProps> = ({
     return ee ? (
         <div style={styles.imageContainer}>
             <img src={eePic} style={styles.img} alt="" />
+        </div>
+    ) : loading && rebooting ? (
+        <div style={styles.welcomeScreen}>
+            <div style={styles.welcomeDialog}>
+                <img
+                    src={happyMac}
+                    style={styles.happyMac}
+                    alt="happy Macintosh"
+                />
+                <p style={styles.welcomeText}>Welcome to Macintosh.</p>
+            </div>
         </div>
     ) : loading ? (
         <div style={styles.shutdown}>
@@ -281,20 +297,50 @@ const styles: StyleSheetCSS = {
     shutdown: {
         minHeight: '100%',
         flex: 1,
-        backgroundColor: '#1d2e2f',
+        backgroundColor: '#111111',
         padding: 64,
     },
     text: {
         color: 'white',
-        fontFamily: 'monospace',
+        fontFamily: 'MonacoWeb, monospace',
         whiteSpace: 'pre-line',
+    },
+    // Classic Mac boot: light gray screen, centered rounded dialog
+    welcomeScreen: {
+        minHeight: '100%',
+        flex: 1,
+        backgroundColor: '#b6b6b6',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    welcomeDialog: {
+        backgroundColor: 'white',
+        border: '2px solid black',
+        borderRadius: 14,
+        boxShadow: '2px 2px 0 black',
+        paddingTop: 28,
+        paddingBottom: 28,
+        paddingLeft: 48,
+        paddingRight: 48,
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    happyMac: {
+        width: 64,
+        imageRendering: 'pixelated',
+        marginRight: 32,
+    },
+    welcomeText: {
+        fontFamily: 'Chicago, Geneva, sans-serif',
+        fontSize: 28,
+        color: 'black',
     },
     imageContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: '#1d2e2f',
+        backgroundColor: '#111111',
         padding: 64,
     },
     img: {

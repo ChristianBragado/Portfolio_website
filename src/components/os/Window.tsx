@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { IconName } from '../../assets/icons';
-import colors from '../../constants/colors';
 import Colors from '../../constants/colors';
-import Icon from '../general/Icon';
-import Button from './Button';
+import EMBED_INSET from '../../constants/layout';
 import DragIndicator from './DragIndicator';
 import ResizeIndicator from './ResizeIndicator';
 
@@ -160,8 +158,11 @@ const Window: React.FC<WindowProps> = (props) => {
                 left,
             });
             setWidth(window.innerWidth);
-            setHeight(window.innerHeight - 32);
-            setTop(0);
+            // 20 = System 7 menu bar height at the top of the screen
+            setHeight(
+                window.innerHeight - 20 - EMBED_INSET.top - EMBED_INSET.bottom
+            );
+            setTop(20 + EMBED_INSET.top);
             setLeft(0);
             setIsMaximized(true);
         }
@@ -200,127 +201,63 @@ const Window: React.FC<WindowProps> = (props) => {
                 })}
                 ref={windowRef}
             >
-                <div style={styles.windowBorderOuter}>
-                    <div style={styles.windowBorderInner}>
+                <div style={styles.dragHitbox} onMouseDown={startDrag}></div>
+                <div
+                    className={props.rainbow ? 'rainbow-wrapper' : ''}
+                    style={styles.titleBar}
+                >
+                    {windowActive && <div style={styles.titleStripes} />}
+                    {windowActive && (
                         <div
-                            style={styles.dragHitbox}
-                            onMouseDown={startDrag}
-                        ></div>
-                        <div
-                            className={props.rainbow ? 'rainbow-wrapper' : ''}
-                            style={Object.assign(
-                                {},
-                                styles.topBar,
-                                props.windowBarColor && {
-                                    backgroundColor: props.windowBarColor,
-                                },
-                                !windowActive && {
-                                    backgroundColor: Colors.darkGray,
-                                }
-                            )}
-                        >
-                            <div style={styles.windowHeader}>
-                                {props.windowBarIcon ? (
-                                    <Icon
-                                        icon={props.windowBarIcon}
-                                        style={Object.assign(
-                                            {},
-                                            styles.windowBarIcon,
-                                            !windowActive && { opacity: 0.5 }
-                                        )}
-                                        size={16}
-                                    />
-                                ) : (
-                                    <div style={{ width: 16 }} />
-                                )}
-                                <p
-                                    style={
-                                        windowActive
-                                            ? {}
-                                            : { color: colors.lightGray }
-                                    }
-                                    className="showcase-header"
-                                >
-                                    {props.windowTitle}
-                                </p>
-                            </div>
-                            <div style={styles.windowTopButtons}>
-                                <Button
-                                    icon="minimize"
-                                    onClick={props.minimizeWindow}
-                                />
-                                <Button icon="maximize" onClick={maximize} />
-                                <div style={{ paddingLeft: 2 }}>
-                                    <Button
-                                        icon="close"
-                                        onClick={props.closeWindow}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            style={Object.assign({}, styles.contentOuter, {
-                                // zIndex: isDragging || isResizing ? 0 : 100,
-                            })}
-                        >
-                            <div style={styles.contentInner}>
-                                <div style={styles.content} ref={contentRef}>
-                                    {props.children}
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            onMouseDown={startResize}
-                            style={styles.resizeHitbox}
-                        ></div>
-                        <div style={styles.bottomBar}>
+                            style={styles.closeBox}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={props.closeWindow}
+                        />
+                    )}
+                    <p
+                        className="showcase-header"
+                        style={Object.assign(
+                            {},
+                            styles.titleText,
+                            !windowActive && { color: Colors.titleInactive }
+                        )}
+                    >
+                        {props.windowTitle}
+                    </p>
+                    {windowActive && (
+                        <div style={styles.titleRightBoxes}>
                             <div
-                                style={Object.assign({}, styles.insetBorder, {
-                                    flex: 5 / 7,
-                                    alignItems: 'center',
-                                })}
+                                style={styles.zoomBox}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={maximize}
                             >
-                                <p
-                                    style={{
-                                        fontSize: 12,
-                                        marginLeft: 4,
-                                        fontFamily: 'MSSerif',
-                                    }}
-                                >
-                                    {props.bottomLeftText}
-                                </p>
+                                <div style={styles.zoomBoxInner} />
                             </div>
                             <div
-                                style={Object.assign(
-                                    {},
-                                    styles.insetBorder,
-                                    styles.bottomSpacer
-                                )}
-                            />
-                            <div
-                                style={Object.assign(
-                                    {},
-                                    styles.insetBorder,
-                                    styles.bottomSpacer
-                                )}
-                            />
-                            <div
-                                style={Object.assign(
-                                    {},
-                                    styles.insetBorder,
-                                    styles.bottomResizeContainer
-                                )}
+                                style={styles.collapseBox}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={props.minimizeWindow}
                             >
-                                <div
-                                    style={{
-                                        alignItems: 'flex-end',
-                                    }}
-                                >
-                                    <Icon size={12} icon="windowResize" />
-                                </div>
+                                <div style={styles.collapseLine} />
                             </div>
                         </div>
+                    )}
+                </div>
+                <div style={styles.content} ref={contentRef}>
+                    {props.children}
+                </div>
+                {props.bottomLeftText && (
+                    <div style={styles.statusBar}>
+                        <p style={styles.statusText}>{props.bottomLeftText}</p>
                     </div>
+                )}
+                <div
+                    onMouseDown={startResize}
+                    style={styles.resizeHitbox}
+                ></div>
+                <div style={styles.growBox}>
+                    <div style={styles.growSquareBack} />
+                    <div style={styles.growSquareFront} />
                 </div>
             </div>
 
@@ -372,110 +309,169 @@ const Window: React.FC<WindowProps> = (props) => {
 
 const styles: StyleSheetCSS = {
     window: {
-        backgroundColor: Colors.lightGray,
+        backgroundColor: Colors.white,
         position: 'absolute',
+        border: `1px solid ${Colors.black}`,
+        boxShadow: `1px 1px 0 ${Colors.black}`,
+        flexDirection: 'column',
+        boxSizing: 'border-box',
     },
     dragHitbox: {
         position: 'absolute',
-        width: 'calc(100% - 70px)',
-        height: 48,
+        left: 26,
+        width: 'calc(100% - 78px)',
+        height: 22,
         zIndex: 10000,
-        top: -8,
-        left: -4,
+        top: -2,
         cursor: 'move',
-    },
-    windowBorderOuter: {
-        border: `1px solid ${Colors.black}`,
-        borderTopColor: colors.lightGray,
-        borderLeftColor: colors.lightGray,
-        flex: 1,
-    },
-    windowBorderInner: {
-        border: `1px solid ${Colors.darkGray}`,
-        borderTopColor: colors.white,
-        borderLeftColor: colors.white,
-        flex: 1,
-        padding: 2,
-
-        flexDirection: 'column',
     },
     resizeHitbox: {
         position: 'absolute',
-        width: 60,
-        height: 60,
-        bottom: -20,
-        right: -20,
+        width: 44,
+        height: 44,
+        bottom: -14,
+        right: -14,
         cursor: 'nwse-resize',
     },
-    topBar: {
-        backgroundColor: Colors.blue,
+    // System 7 title bar: white, 19px, horizontal pinstripes when active
+    titleBar: {
+        position: 'relative',
         width: '100%',
-        height: 20,
-
+        height: 19,
+        flexShrink: 0,
+        backgroundColor: Colors.white,
+        borderBottom: `1px solid ${Colors.black}`,
         alignItems: 'center',
-        paddingRight: 2,
+        justifyContent: 'center',
         boxSizing: 'border-box',
     },
-    contentOuter: {
-        border: `1px solid ${Colors.white}`,
-        borderTopColor: colors.darkGray,
-        borderLeftColor: colors.darkGray,
-        flexGrow: 1,
-
-        marginTop: 8,
-        marginBottom: 8,
-        overflow: 'hidden',
+    titleStripes: {
+        position: 'absolute',
+        top: 3,
+        bottom: 3,
+        left: 2,
+        right: 2,
+        backgroundImage: `repeating-linear-gradient(
+            to bottom,
+            ${Colors.black} 0px,
+            ${Colors.black} 1px,
+            transparent 1px,
+            transparent 3px
+        )`,
     },
-    contentInner: {
-        border: `1px solid ${Colors.lightGray}`,
-        borderTopColor: colors.black,
-        borderLeftColor: colors.black,
-        flex: 1,
+    titleText: {
+        position: 'relative',
+        backgroundColor: Colors.white,
+        paddingLeft: 8,
+        paddingRight: 8,
+        whiteSpace: 'nowrap',
         overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        maxWidth: 'calc(100% - 96px)',
+    },
+    closeBox: {
+        position: 'absolute',
+        left: 9,
+        top: 3,
+        width: 11,
+        height: 11,
+        backgroundColor: Colors.white,
+        border: `1px solid ${Colors.black}`,
+        boxShadow: `0 0 0 2px ${Colors.white}`,
+        cursor: 'pointer',
+        zIndex: 10001,
+    },
+    titleRightBoxes: {
+        position: 'absolute',
+        right: 9,
+        top: 3,
+        flexDirection: 'row-reverse',
+        zIndex: 10001,
+    },
+    zoomBox: {
+        width: 11,
+        height: 11,
+        backgroundColor: Colors.white,
+        border: `1px solid ${Colors.black}`,
+        boxShadow: `0 0 0 2px ${Colors.white}`,
+        cursor: 'pointer',
+        position: 'relative',
+    },
+    zoomBoxInner: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: 6,
+        height: 6,
+        borderRight: `1px solid ${Colors.black}`,
+        borderBottom: `1px solid ${Colors.black}`,
+    },
+    collapseBox: {
+        width: 11,
+        height: 11,
+        backgroundColor: Colors.white,
+        border: `1px solid ${Colors.black}`,
+        boxShadow: `0 0 0 2px ${Colors.white}`,
+        cursor: 'pointer',
+        marginRight: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    collapseLine: {
+        width: 11,
+        height: 1,
+        backgroundColor: Colors.black,
     },
     content: {
         flex: 1,
-
         position: 'relative',
-        // overflow: 'scroll',
         overflowX: 'hidden',
         backgroundColor: Colors.white,
     },
-    bottomBar: {
-        flexShrink: 1,
+    statusBar: {
+        flexShrink: 0,
         width: '100%',
-        height: 20,
-    },
-    bottomSpacer: {
-        width: 16,
-        marginLeft: 2,
-    },
-    insetBorder: {
-        border: `1px solid ${Colors.white}`,
-        borderTopColor: colors.darkGray,
-        borderLeftColor: colors.darkGray,
-        padding: 2,
-    },
-    bottomResizeContainer: {
-        flex: 2 / 7,
-
-        justifyContent: 'flex-end',
-        padding: 0,
-        marginLeft: 2,
-    },
-    windowTopButtons: {
-        // zIndex: 10000,
-
+        height: 17,
+        borderTop: `1px solid ${Colors.black}`,
+        backgroundColor: Colors.white,
         alignItems: 'center',
+        boxSizing: 'border-box',
     },
-    windowHeader: {
-        flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
+    statusText: {
+        fontSize: 11,
+        marginLeft: 6,
+        fontFamily: 'MSSerif',
+        color: '#333333',
     },
-    windowBarIcon: {
-        paddingLeft: 4,
-        paddingRight: 4,
+    // System 7 grow box (two overlapping squares, bottom-right)
+    growBox: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        width: 15,
+        height: 15,
+        backgroundColor: Colors.white,
+        borderLeft: `1px solid ${Colors.black}`,
+        borderTop: `1px solid ${Colors.black}`,
+        pointerEvents: 'none',
+    },
+    growSquareBack: {
+        position: 'absolute',
+        left: 5,
+        top: 5,
+        width: 7,
+        height: 7,
+        border: `1px solid ${Colors.darkGray}`,
+        backgroundColor: Colors.white,
+    },
+    growSquareFront: {
+        position: 'absolute',
+        left: 2,
+        top: 2,
+        width: 6,
+        height: 6,
+        border: `1px solid ${Colors.black}`,
+        backgroundColor: Colors.white,
     },
 };
 
