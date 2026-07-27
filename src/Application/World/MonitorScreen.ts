@@ -43,7 +43,7 @@ export default class MonitorScreen extends EventEmitter {
         this.resources = this.application.resources;
         this.screenSize = new THREE.Vector2(SCREEN_SIZE.w, SCREEN_SIZE.h);
         this.camera = this.application.camera;
-        this.position = new THREE.Vector3(0, 950, 255);
+        this.position = new THREE.Vector3(0, 1092, 300);
         this.rotation = new THREE.Euler(-3 * THREE.MathUtils.DEG2RAD, 0, 0);
         this.videoTextures = {};
         this.mouseClickInProgress = false;
@@ -440,7 +440,7 @@ export default class MonitorScreen extends EventEmitter {
     createEnclosingPlane(plane: EnclosingPlane) {
         const material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
-            color: 0x48493f,
+            color: 0x080808,
         });
 
         const geometry = new THREE.PlaneGeometry(plane.size.x, plane.size.y);

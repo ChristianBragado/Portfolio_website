@@ -14,6 +14,7 @@ export default class BakedModel {
 
         this.material = new THREE.MeshBasicMaterial({
             map: this.texture,
+            side: THREE.DoubleSide,
         });
 
         this.model.scene.traverse((child) => {
