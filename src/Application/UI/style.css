@@ -183,3 +183,99 @@ br {
         padding-bottom: 32px;
     }
 }
+
+/* ---------- Macintosh boot screen ---------- */
+
+/* Chicago @font-face lives in index.html so css-loader doesn't try to
+   resolve the absolute /fonts URL as a module. */
+
+.mac-boot-dialog {
+    background: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 14px;
+    box-shadow: 2px 2px 0 #000000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 28px 48px;
+}
+
+.mac-boot-dialog img {
+    width: 64px;
+    image-rendering: pixelated;
+    margin-right: 32px;
+}
+
+.mac-boot-dialog h1 {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    color: #000000;
+    margin: 0;
+}
+
+.mac-progress-track {
+    width: 320px;
+    height: 12px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    margin: 0 auto;
+}
+
+.mac-progress-fill {
+    height: 100%;
+    background: #9999cc;
+    border-right: 1px solid #000000;
+    transition: width 0.3s ease-out;
+}
+
+.mac-boot-caption {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: #222222;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.mac-start-button {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 16px;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 7px;
+    padding: 6px 28px;
+    cursor: pointer;
+}
+
+.mac-start-button:hover {
+    background: #eeeeee;
+}
+
+.mac-start-button:active {
+    background: #000000;
+    color: #ffffff;
+}
+
+/* System 7 default-button ring */
+.mac-default-ring {
+    border: 3px solid #000000;
+    border-radius: 12px;
+    padding: 3px;
+    display: inline-block;
+}
+
+.mac-alert {
+    background: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 #000000;
+    padding: 24px 32px;
+    max-width: 500px;
+    color: #000000;
+    font-family: Geneva, Helvetica, sans-serif;
+}
+
+.mac-alert p {
+    color: #000000;
+}

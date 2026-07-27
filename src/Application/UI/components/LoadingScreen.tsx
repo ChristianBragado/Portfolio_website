@@ -150,124 +150,78 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             )}
             {!firefoxError && !webGLError && (
                 <div
-                    style={Object.assign({}, styles.overlayText, {
+                    style={Object.assign({}, styles.macBootScreen, {
                         opacity: loadingTextOpacity,
                     })}
                 >
-                    <div
-                        style={styles.header}
-                        className="loading-screen-header"
-                    >
-                        <div style={styles.logoContainer}>
-                            <div>
-                                <p style={styles.green}>
-                                    <b>Bragado,</b>{' '}
-                                </p>
-                                <p style={styles.green}>
-                                    <b>Hugo Inc.</b>
-                                </p>
-                            </div>
-                        </div>
-                        <div style={styles.headerInfo}>
-                            <p>Released: 01/13/2000</p>
-                            <p>HHBIOS (C)2000 Christian Hugo Inc.,</p>
-                        </div>
+                    <div className="mac-boot-dialog">
+                        <img src="/images/happyMac.png" alt="" />
+                        <h1>Welcome to Macintosh.</h1>
                     </div>
-                    <div style={styles.body} className="loading-screen-body">
-                        <p>HSP S13 2000-2022 Special UC131S</p>
-                        <div style={styles.spacer} />
+                    <div style={styles.progressArea}>
                         {showBiosInfo && (
                             <>
-                                <p>HSP Showcase(tm) XX 113</p>
-                                <p>Checking RAM : {14000} OK</p>
-                                <div style={styles.spacer} />
-                                <div style={styles.spacer} />
-                                {showLoadingResources ? (
-                                    progress == 1 ? (
-                                        <p>FINISHED LOADING RESOURCES</p>
-                                    ) : (
-                                        <p className="loading">
-                                            LOADING RESOURCES ({loaded}/
-                                            {toLoad === 0 ? '-' : toLoad})
-                                        </p>
-                                    )
-                                ) : (
-                                    <p className="loading">WAIT</p>
-                                )}
+                                <div className="mac-progress-track">
+                                    <div
+                                        className="mac-progress-fill"
+                                        style={{
+                                            width: `${Math.round(
+                                                progress * 100
+                                            )}%`,
+                                        }}
+                                    />
+                                </div>
+                                <p className="mac-boot-caption">
+                                    {showLoadingResources
+                                        ? progress >= 1
+                                            ? 'Startup complete.'
+                                            : `Loading resources… (${loaded}/${
+                                                  toLoad === 0 ? '–' : toLoad
+                                              })`
+                                        : 'Starting up…'}
+                                </p>
                             </>
                         )}
-                        <div style={styles.spacer} />
-                        <div style={styles.resourcesLoadingList}>
-                            {resources.map((sourceName) => (
-                                <p key={sourceName}>{sourceName}</p>
-                            ))}
-                        </div>
-                        <div style={styles.spacer} />
-                        {showLoadingResources && doneLoading && (
-                            <p>
-                                All Content Loaded, launching{' '}
-                                <b style={styles.green}>
-                                    'Christian Bragado Portfolio Showcase'
-                                </b>{' '}
-                                V1.0
-                            </p>
-                        )}
-                        <div style={styles.spacer} />
-                        <span className="blinking-cursor" />
                     </div>
-                    <div
-                        style={styles.footer}
-                        className="loading-screen-footer"
-                    >
-                        <p>
-                            Press <b>DEL</b> to enter SETUP , <b>ESC</b> to skip
-                            memory test
-                        </p>
-                        <p>{getCurrentDate()}</p>
-                    </div>
+                    <p style={styles.bootFooter}>
+                        Christian Bragado — Portfolio Showcase ·{' '}
+                        {getCurrentDate()}
+                    </p>
                 </div>
             )}
             <div
                 style={Object.assign({}, styles.popupContainer, {
                     opacity: startPopupOpacity,
+                    pointerEvents:
+                        startPopupOpacity === 0 ? 'none' : 'all',
                 })}
             >
-                <div style={styles.startPopup}>
-                    {/* <p style={styles.red}>
-                        <b>THIS SITE IS CURRENTLY A W.I.P.</b>
-                    </p>
-                    <p>But do enjoy what I have done so far :)</p>
-                    <div style={styles.spacer} />
-                    <div style={styles.spacer} /> */}
-                    <p>Christian Bragado Portfolio Showcase 2022</p>
-                    {mobileWarning && (
-                        <>
-                            <br />
-                            <b>
-                                <p style={styles.warning}>
-                                    WARNING: This experience is best viewed on
-                                </p>
-                                <p style={styles.warning}>
-                                    a desktop or laptop computer.
-                                </p>
-                            </b>
-                            <br />
-                        </>
-                    )}
-                    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <p>Click start to begin{'\xa0'}</p>
-                        <span className="blinking-cursor" />
+                <div style={styles.startColumn}>
+                    <div className="mac-boot-dialog">
+                        <img src="/images/happyMac.png" alt="" />
+                        <div>
+                            <h1>Welcome to Macintosh.</h1>
+                            <p className="mac-boot-caption" style={styles.startCaption}>
+                                Christian Bragado — Portfolio Showcase 2022
+                            </p>
+                        </div>
                     </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: '16px',
-                        }}
-                    >
-                        <div className="bios-start-button" onClick={start}>
-                            <p>START</p>
+                    {mobileWarning && (
+                        <div className="mac-alert" style={styles.mobileAlert}>
+                            <p>
+                                <b>Note:</b> this experience is best viewed on a
+                                desktop or laptop computer.
+                            </p>
+                        </div>
+                    )}
+                    <div style={styles.startButtonRow}>
+                        <div className="mac-default-ring">
+                            <button
+                                className="mac-start-button"
+                                onClick={start}
+                            >
+                                Start
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -278,7 +232,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         opacity: firefoxPopupOpacity,
                     })}
                 >
-                    <div style={styles.startPopup}>
+                    <div className="mac-alert">
                         <p>
                             <b style={{ color: 'red' }}>FATAL ERROR:</b> Firefox
                             Detected
@@ -324,7 +278,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         opacity: webGLErrorOpacity,
                     })}
                 >
-                    <div style={styles.startPopup}>
+                    <div className="mac-alert">
                         <p>
                             <b style={{ color: 'red' }}>CRITICAL ERROR:</b> No
                             WebGL Detected
@@ -346,7 +300,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
 
 const styles: StyleSheetCSS = {
     overlay: {
-        backgroundColor: 'black',
+        backgroundColor: '#b6b6b6',
         width: '100%',
         height: '100%',
         display: 'flex',
@@ -369,6 +323,48 @@ const styles: StyleSheetCSS = {
 
     spacer: {
         height: 16,
+    },
+    macBootScreen: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transition: 'opacity 0.4s ease-in-out',
+    },
+    progressArea: {
+        marginTop: 40,
+        minHeight: 48,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    bootFooter: {
+        position: 'absolute',
+        bottom: 24,
+        width: '100%',
+        textAlign: 'center',
+        fontFamily: 'Chicago, Geneva, sans-serif',
+        fontSize: 12,
+        color: '#444444',
+    },
+    startColumn: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    startCaption: {
+        textAlign: 'left',
+        marginTop: 8,
+    },
+    mobileAlert: {
+        marginTop: 20,
+    },
+    startButtonRow: {
+        marginTop: 28,
+        display: 'flex',
+        justifyContent: 'center',
     },
     header: {
         width: '100%',
