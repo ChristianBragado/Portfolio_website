@@ -27,11 +27,18 @@ module.exports = merge(
             allowedHosts: 'all',
             hot: false,
             watchFiles: ['src/**', 'static/**'],
-            static:
-            {
-                watch: true,
-                directory: path.join(__dirname, '../static')
-            },
+            static: [
+                {
+                    watch: true,
+                    directory: path.join(__dirname, '../static')
+                },
+                {
+                    // serves /os (inner System 7 build) without ?dev;
+                    // live inner development still uses ?dev + localhost:3000
+                    watch: false,
+                    directory: path.join(__dirname, '../public')
+                }
+            ],
             client:
             {
                 logging: 'none',

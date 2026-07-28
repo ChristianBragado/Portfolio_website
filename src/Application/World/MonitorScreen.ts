@@ -184,7 +184,8 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // PROD
-        iframe.src = 'https://portfolio-website-inner.vercel.app/';
+        // Inner System 7 OS builds into public/os — same origin as this site
+        iframe.src = '/os/';
         /**
          * Use dev server is query params are present
          *

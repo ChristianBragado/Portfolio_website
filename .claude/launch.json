@@ -10,7 +10,7 @@
         {
             "name": "inner-dev",
             "runtimeExecutable": "npm",
-            "runtimeArgs": ["--prefix", "/Users/chrono/Documents/portfolio_website_inner", "start"],
+            "runtimeArgs": ["--prefix", "/Users/chrono/Documents/Portfolio_website/inner", "start"],
             "port": 3000
         }
     ]
