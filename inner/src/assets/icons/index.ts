@@ -23,6 +23,10 @@ import macHD from './macHD.png';
 import macTrash from './macTrash.png';
 import showcaseDoc from './showcaseDoc.png';
 import appMenuGeneric from './appMenuGeneric.png';
+import puzzleIcon from './puzzleIcon.png';
+import shufflepuckIcon from './shufflepuckIcon.png';
+import darkcastleIcon from './darkcastleIcon.png';
+import mystIcon from './mystIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -48,6 +52,10 @@ const icons = {
     macTrash: macTrash,
     showcaseDoc: showcaseDoc,
     appMenuGeneric: appMenuGeneric,
+    puzzleIcon: puzzleIcon,
+    shufflepuckIcon: shufflepuckIcon,
+    darkcastleIcon: darkcastleIcon,
+    mystIcon: mystIcon,
 };
 
 export type IconName = keyof typeof icons;

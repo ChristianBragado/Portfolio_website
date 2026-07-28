@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Colors from '../../constants/colors';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
-import Doom from '../applications/Doom';
-import OregonTrail from '../applications/OregonTrail';
 import ShutdownSequence from './ShutdownSequence';
-// import ThisComputer from '../applications/ThisComputer';
-import Wordle from '../applications/Wordle';
+import PuzzleApp from '../applications/Puzzle';
+import {
+    ShufflepuckApp,
+    DarkCastleApp,
+    MystApp,
+} from '../applications/ClassicGames';
 import EMBED_INSET from '../../constants/layout';
 import MenuBar from './MenuBar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
-import Scrabble from '../applications/Scrabble';
 import { IconName } from '../../assets/icons';
 import Credits from '../applications/Credits';
 
@@ -37,29 +38,29 @@ const APPLICATIONS: {
         shortcutIcon: 'showcaseDoc',
         component: ShowcaseExplorer,
     },
-    trail: {
-        key: 'trail',
-        name: 'The Oregon Trail',
-        shortcutIcon: 'trailIcon',
-        component: OregonTrail,
+    puzzle: {
+        key: 'puzzle',
+        name: 'Puzzle',
+        shortcutIcon: 'puzzleIcon',
+        component: PuzzleApp,
     },
-    doom: {
-        key: 'doom',
-        name: 'Doom',
-        shortcutIcon: 'doomIcon',
-        component: Doom,
+    shufflepuck: {
+        key: 'shufflepuck',
+        name: 'Shufflepuck Café',
+        shortcutIcon: 'shufflepuckIcon',
+        component: ShufflepuckApp,
     },
-    scrabble: {
-        key: 'scrabble',
-        name: 'Scrabble',
-        shortcutIcon: 'scrabbleIcon',
-        component: Scrabble,
+    darkcastle: {
+        key: 'darkcastle',
+        name: 'Dark Castle',
+        shortcutIcon: 'darkcastleIcon',
+        component: DarkCastleApp,
     },
-    wordle: {
-        key: 'wordle',
-        name: 'Wordle',
-        shortcutIcon: 'henordleIcon',
-        component: Wordle,
+    myst: {
+        key: 'myst',
+        name: 'Myst',
+        shortcutIcon: 'mystIcon',
+        component: MystApp,
     },
     credits: {
         key: 'credits',

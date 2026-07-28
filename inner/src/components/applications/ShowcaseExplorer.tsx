@@ -28,7 +28,11 @@ const ShowcaseExplorer: React.FC<ShowcaseExplorerProps> = (props) => {
             minimizeWindow={props.onMinimize}
             bottomLeftText={'© Copyright 2022 Christian Hugo'}
         >
-            <Router basename={process.env.PUBLIC_URL}>
+            <Router
+                basename={
+                    window.location.pathname.startsWith('/os') ? '/os' : ''
+                }
+            >
                 <div className="site-page">
                     <VerticalNavbar />
                     <Routes>
