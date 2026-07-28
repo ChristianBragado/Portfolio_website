@@ -1,0 +1,17 @@
+{
+    "version": "0.0.1",
+    "configurations": [
+        {
+            "name": "portfolio-dev",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run", "dev", "--", "--host", "localhost"],
+            "port": 8080
+        },
+        {
+            "name": "inner-dev",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["--prefix", "/Users/chrono/Documents/portfolio_website_inner", "start"],
+            "port": 3000
+        }
+    ]
+}

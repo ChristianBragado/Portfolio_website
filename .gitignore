@@ -4,3 +4,7 @@ package-lock.json
 *.psd
 
 public/
+.vercel
+.env*
+.claude/worktrees/
+3D Blender models/
