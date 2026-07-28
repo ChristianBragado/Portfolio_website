@@ -1,0 +1,512 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    /* -webkit-font-smoothing: antialiased; */
+    /* -moz-osx-font-smoothing: grayscale; */
+}
+
+html, body {
+    background-color: #fff;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+
+/* System 7 fonts. Chicago (ChicagoFLF, freeware) is the OS chrome face. */
+@font-face {
+    font-family: Chicago;
+    src: url(./assets/fonts/ChicagoFLF.woff2) format('woff2'),
+        url(./assets/fonts/ChicagoFLF.ttf);
+}
+
+@font-face {
+    font-family: Geneva9;
+    src: url(./assets/fonts/FindersKeepers.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: MonacoWeb;
+    src: url(./assets/fonts/monaco.woff2) format('woff2');
+}
+
+/* Legacy family names kept so existing components restyle without edits */
+@font-face {
+    font-family: MSSerif;
+    src: url(./assets/fonts/MSSansSerif.ttf);
+}
+
+@font-face {
+    font-family: Millennium;
+    src: url(./assets/fonts/Millennium.ttf);
+}
+
+@font-face {
+    font-family: MillenniumBold;
+    src: url(./assets/fonts/Millennium-Bold.ttf);
+}
+
+@font-face {
+    font-family: Terminal;
+    src: url(./assets/fonts/monaco.woff2) format('woff2');
+}
+
+
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+p {
+    font-family: Millennium, 'Times New Roman', Times, serif;
+    font-size: 18px;
+}
+
+p b {
+    font-family: MillenniumBold, 'Times New Roman', Times, serif;
+}
+
+.showcase-header {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
+}
+
+.toolbar-text {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
+}
+
+h1 {
+    font-family: Chicago, gastromond, sans-serif;
+    font-size: 56px;
+    font-weight: normal;
+}
+
+h2 {
+    font-family: MillenniumBold, 'Times New Roman', Times, serif;
+    font-size: 32px;
+}
+
+h3 {
+    font-family: MillenniumBold, 'Times New Roman', Times, serif;
+    font-size: 24px;
+    letter-spacing: 0px;
+}
+
+h4 {
+    font-family: MillenniumBold, 'Times New Roman', Times, serif;
+    font-size: 18px;
+    letter-spacing: 0px;
+}
+
+li {
+    margin-bottom: 16px;
+}
+
+.blend {
+    mix-blend-mode: screen;
+    background-color: red;
+}
+
+:root {
+    /* System 7: flat white surfaces, hairline black borders */
+    --button-highlight: #ffffff;
+    --button-face: #dddddd;
+    --button-shadow: #bbbbbb;
+    --window-frame: #000000;
+    --surface: #dddddd;
+    --surface-hover: #eeeeee;
+    --border-field: inset 0 0 0 1px var(--window-frame);
+    --border-raised-outer: inset 0 0 0 1px var(--window-frame);
+    --border-raised-inner: inset 0 0 0 2px var(--button-highlight);
+}
+
+.big-button-container {
+    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+    padding: 24px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.big-button-container:hover {
+    background-color: var(--surface-hover);
+}
+
+.big-button-container:active {
+    box-shadow: var(--border-raised-inner), var(--border-raised-outer);
+    /* box-shadow: inset var(--border-raised-inner),
+        inset var(--border-raised-outer); */
+    background-color: var(--surface);
+}
+
+input {
+    width: 100%;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    border: none;
+    resize: none;
+    box-shadow: var(--border-field);
+    font-family: Millennium, sans-serif;
+    font-size: 18px;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 4px 8px;
+    border: none;
+    box-sizing: border-box;
+    resize: none;
+    box-shadow: var(--border-field);
+    font-family: Millennium, sans-serif;
+    font-size: 18px;
+}
+
+.music-controller-container {
+    box-shadow: var(--border-field);
+}
+
+textarea:focus,
+textarea:active,
+input:focus,
+input:active {
+    outline: none;
+    background-color: #fbffc4;
+}
+
+.button-border {
+    box-sizing: border-box;
+    background: var(--surface-hover);
+    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+    border-radius: 0;
+    border: none;
+}
+
+.site-button {
+    box-sizing: border-box;
+    background: white;
+    box-shadow: none;
+    border-radius: 7px;
+    border: 1px solid black;
+    color: black;
+    font-size: 18px;
+    /* flex-shrink: 1; */
+    padding: 4px 12px;
+    cursor: pointer;
+    font-family: Millennium;
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.site-button:hover {
+    background-color: var(--surface-hover);
+}
+
+.site-button:active {
+    background-color: black;
+    color: white;
+}
+
+.site-button:disabled {
+    color: #999999;
+    border-color: #999999;
+    background: white;
+    cursor: not-allowed;
+}
+
+.captioned-image {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.captioned-image img {
+    width: 100%;
+}
+
+.text-block {
+    margin-top: 16px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+}
+
+.site-page {
+    display: flex;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    overflow: hidden;
+}
+
+.site-page-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 300px;
+    width: 100%;
+    padding: 64px;
+    padding-top: 32px;
+    padding-left: 16px;
+    overflow-y: scroll;
+}
+
+.router-link:visited {
+    color: purple;
+}
+
+.loading::after {
+    display: inline-block;
+    animation: dotty steps(1, end) 1s infinite;
+    content: '';
+}
+
+@keyframes dotty {
+    0% {
+        content: '';
+    }
+    25% {
+        content: '.';
+    }
+    50% {
+        content: '..';
+    }
+    75% {
+        content: '...';
+    }
+    100% {
+        content: '';
+    }
+}
+
+@keyframes arrow {
+    from {
+        opacity: 0;
+        transform: scale(1, 0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+.arrow-mount {
+    transition: opacity;
+    animation: arrow 0.2s normal forwards ease-out;
+}
+
+.rainbow-wrapper {
+    background: linear-gradient(
+        124deg,
+        #ff2400,
+        #e81d1d,
+        #e8b71d,
+        #e3e81d,
+        #1de840,
+        #1ddde8,
+        #2b1de8,
+        #dd00f3,
+        #dd00f3
+    );
+    background-size: 1800% 1800%;
+
+    -webkit-animation: rainbow 18s ease infinite;
+    -z-animation: rainbow 18s ease infinite;
+    -o-animation: rainbow 18s ease infinite;
+    animation: rainbow 18s ease infinite;
+}
+
+@-webkit-keyframes rainbow {
+    0% {
+        background-position: 0% 82%;
+    }
+    50% {
+        background-position: 100% 19%;
+    }
+    100% {
+        background-position: 0% 82%;
+    }
+}
+@-moz-keyframes rainbow {
+    0% {
+        background-position: 0% 82%;
+    }
+    50% {
+        background-position: 100% 19%;
+    }
+    100% {
+        background-position: 0% 82%;
+    }
+}
+@-o-keyframes rainbow {
+    0% {
+        background-position: 0% 82%;
+    }
+    50% {
+        background-position: 100% 19%;
+    }
+    100% {
+        background-position: 0% 82%;
+    }
+}
+@keyframes rainbow {
+    0% {
+        background-position: 0% 82%;
+    }
+    50% {
+        background-position: 100% 19%;
+    }
+    100% {
+        background-position: 0% 82%;
+    }
+}
+
+.shortcut-border {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23ea3323' stroke-width='2' stroke-dasharray='1%2c1' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+}
+
+.selected-shortcut-border {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23fff' stroke-width='2' stroke-dasharray='1%2c1' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+}
+
+.notyf-announcer {
+    opacity: 0!important;
+}
+
+.notyf {
+    opacity: 0!important;
+}
+
+.start-menu-option:hover {
+    background-color: #000000;
+    cursor: pointer;
+    color: white;
+}
+
+/* ---------- System 7 chrome ---------- */
+
+/* Menu bar drop-down */
+.sys-menu {
+    position: absolute;
+    top: 20px;
+    background: white;
+    border: 1px solid black;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.85);
+    padding: 2px 0;
+    min-width: 180px;
+    z-index: 100001;
+    flex-direction: column;
+    display: flex;
+}
+
+.sys-menu-item {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
+    padding: 3px 16px 3px 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sys-menu-item:hover {
+    background: black;
+    color: white;
+}
+
+.sys-menu-item.disabled {
+    color: #999999;
+    pointer-events: none;
+}
+
+.sys-menu-sep {
+    height: 1px;
+    background: #999999;
+    margin: 3px 1px;
+}
+
+.sys-menu-label {
+    font-family: Chicago, Geneva, sans-serif;
+    font-size: 13px;
+    color: black;
+    padding: 2px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.sys-menu-label.open {
+    background: black;
+    color: white;
+}
+
+/* System 7 title bar pinstripes (6 lines over 19px) */
+.sys-titlebar-stripes {
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        black 2px,
+        black 3px
+    );
+    background-size: 100% 3px;
+    background-clip: content-box;
+}
+
+/* Scrollbars: white track, hairline border, lavender thumb */
+::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-left: 1px solid #000000;
+}
+::-webkit-scrollbar-thumb {
+    background: #9999cc;
+    border: 1px solid #000000;
+}
+::-webkit-scrollbar-corner {
+    background: #ffffff;
+    border-left: 1px solid #000000;
+    border-top: 1px solid #000000;
+}
