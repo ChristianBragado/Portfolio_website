@@ -26,7 +26,6 @@ import appMenuGeneric from './appMenuGeneric.png';
 import puzzleIcon from './puzzleIcon.png';
 import shufflepuckIcon from './shufflepuckIcon.png';
 import darkcastleIcon from './darkcastleIcon.png';
-import mystIcon from './mystIcon.png';
 
 const icons = {
     windowResize: windowResize,
@@ -55,7 +54,6 @@ const icons = {
     puzzleIcon: puzzleIcon,
     shufflepuckIcon: shufflepuckIcon,
     darkcastleIcon: darkcastleIcon,
-    mystIcon: mystIcon,
 };
 
 export type IconName = keyof typeof icons;

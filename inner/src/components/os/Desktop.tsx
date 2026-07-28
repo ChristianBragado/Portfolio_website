@@ -6,7 +6,6 @@ import PuzzleApp from '../applications/Puzzle';
 import {
     ShufflepuckApp,
     DarkCastleApp,
-    MystApp,
 } from '../applications/ClassicGames';
 import EMBED_INSET from '../../constants/layout';
 import MenuBar from './MenuBar';
@@ -55,12 +54,6 @@ const APPLICATIONS: {
         name: 'Dark Castle',
         shortcutIcon: 'darkcastleIcon',
         component: DarkCastleApp,
-    },
-    myst: {
-        key: 'myst',
-        name: 'Myst',
-        shortcutIcon: 'mystIcon',
-        component: MystApp,
     },
     credits: {
         key: 'credits',
