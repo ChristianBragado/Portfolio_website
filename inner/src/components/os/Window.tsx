@@ -425,6 +425,7 @@ const styles: StyleSheetCSS = {
     content: {
         flex: 1,
         minWidth: 0,
+        minHeight: 0,
         position: 'relative',
         overflowX: 'hidden',
         backgroundColor: Colors.white,
