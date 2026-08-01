@@ -1,298 +1,158 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import colors from '../../constants/colors';
-import twitterIcon from '../../assets/pictures/contact-twitter.png';
-import ghIcon from '../../assets/pictures/contact-gh.png';
-import inIcon from '../../assets/pictures/contact-in.png';
+import React, { FormEvent, useState } from 'react';
 import ResumeDownload from './ResumeDownload';
 
 export interface ContactProps {}
 
-// function to validate email
-const validateEmail = (email: string) => {
-    const re =
-        // eslint-disable-next-line
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-};
-
-interface SocialBoxProps {
-    icon: string;
-    link: string;
+interface FormValues {
+    name: string;
+    email: string;
+    company: string;
+    message: string;
 }
 
-const SocialBox: React.FC<SocialBoxProps> = ({ link, icon }) => {
-    return (
-        <a rel="noreferrer" target="_blank" href={link}>
-            <div className="big-button-container" style={styles.social}>
-                <img src={icon} alt="" style={styles.socialImage} />
-            </div>
-        </a>
-    );
+const initialValues: FormValues = {
+    name: '',
+    email: '',
+    company: '',
+    message: '',
 };
 
-const Contact: React.FC<ContactProps> = (props) => {
-    const [company, setCompany] = useState('');
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [formMessage, setFormMessage] = useState('');
-    const [formMessageColor, setFormMessageColor] = useState('');
+const Contact: React.FC<ContactProps> = () => {
+    const [values, setValues] = useState<FormValues>(initialValues);
+    const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'fallback'>('idle');
 
-    useEffect(() => {
-        if (validateEmail(email) && name.length > 0 && message.length > 0) {
-            setIsFormValid(true);
-        } else {
-            setIsFormValid(false);
-        }
-    }, [email, name, message]);
+    const updateValue = (field: keyof FormValues, value: string) => {
+        setValues((current) => ({ ...current, [field]: value }));
+        if (status !== 'idle') setStatus('idle');
+    };
 
-    const handleSubmit = useCallback(() => {
-        if (isFormValid) {
-            setIsLoading(true);
-            fetch('', {
+    const openMailClient = () => {
+        const subject = encodeURIComponent(`Portfolio message from ${values.name}`);
+        const body = encodeURIComponent(
+            `Name: ${values.name}\nEmail: ${values.email}\nCompany: ${values.company || 'Not provided'}\n\n${values.message}`
+        );
+        window.location.href = `mailto:christianhbragado@gmail.com?subject=${subject}&body=${body}`;
+    };
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setStatus('sending');
+
+        try {
+            const response = await fetch('/api/send-email', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    company,
-                    email,
-                    name,
-                    message,
-                }),
-            })
-                .then((res) => {
-                    if (res.status === 200) {
-                        setFormMessage(
-                            `Message successfully sent. Thank you ${name}!`
-                        );
-                        setCompany('');
-                        setEmail('');
-                        setName('');
-                        setMessage('');
-                        setFormMessageColor(colors.blue);
-                        setIsLoading(false);
-                    } else {
-                        setFormMessage(
-                            'There was an error sending your message. Please try again.'
-                        );
-                        setFormMessageColor(colors.red);
-                        setIsLoading(false);
-                    }
-                })
-                .catch((err) => {
-                    setFormMessage(
-                        'There was an error sending your message. Please try again.'
-                    );
-                    setFormMessageColor(colors.red);
-                    setIsLoading(false);
-                });
-        } else {
-            setFormMessage('Form unable to validate, please try again.');
-            setFormMessageColor('red');
-        }
-    }, [company, email, name, message, isFormValid]);
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values),
+            });
 
-    useEffect(() => {
-        if (formMessage.length > 0) {
-            setTimeout(() => {
-                setFormMessage('');
-                setFormMessageColor('');
-            }, 4000);
+            if (!response.ok) throw new Error('Contact endpoint unavailable');
+
+            setValues(initialValues);
+            setStatus('sent');
+        } catch (_error) {
+            setStatus('fallback');
+            openMailClient();
         }
-    }, [formMessage]);
+    };
 
     return (
-        <div className="site-page-content">
-            <div style={styles.header}>
-                <h1>Contact</h1>
-                <div style={styles.socials}>
-                    <SocialBox
-                        icon={ghIcon}
-                        link={'https://github.com/ChristianBragado'}
-                    />
-                    <SocialBox
-                        icon={inIcon}
-                        link={'https://www.linkedin.com/in/christianbragado/'}
-                    />
-                    <SocialBox
-                        icon={twitterIcon}
-                        link={'https://twitter.com/christianhug0'}
-                    />
-                </div>
-            </div>
-            <div className="text-block">
-                <p>
-                    Hello, if you have any opportunities, feel free to reach out - I would love to
-                    chat! You can reach me via my personal email, or fill out
-                    the form below!
+        <main className="site-page-content showcase-contact">
+            <header className="page-intro contact-intro">
+                <p className="showcase-kicker">Contact</p>
+                <h1>Let's make something useful.</h1>
+                <p className="page-lede">
+                    If you have a role, a project, or a good technical problem, send a note.
+                    The form posts to the portfolio server and falls back to your email app if
+                    the server is unavailable.
                 </p>
-                <br />
-                <p>
-                    <b>Email: </b>
-                    <a href="mailto:christianhbragado@gmail.com">
-                        christianhbragado@gmail.com
-                    </a>
-                </p>
+            </header>
 
-                <div style={styles.form}>
-                    <label>
-                        <p>
-                            {!name && <span style={styles.star}>*</span>}
-                            <b>Your name:</b>
-                        </p>
-                    </label>
-                    <input
-                        style={styles.formItem}
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    <label>
-                        <p>
-                            {!validateEmail(email) && (
-                                <span style={styles.star}>*</span>
-                            )}
-                            <b>Email:</b>
-                        </p>
-                    </label>
-                    <input
-                        style={styles.formItem}
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <label>
-                        <p>
-                            <b>Company (optional):</b>
-                        </p>
-                    </label>
-                    <input
-                        style={styles.formItem}
-                        type="company"
-                        name="company"
-                        placeholder="Company"
-                        value={company}
-                        onChange={(e) => setCompany(e.target.value)}
-                    />
-                    <label>
-                        <p>
-                            {!message && <span style={styles.star}>*</span>}
-                            <b>Message:</b>
-                        </p>
-                    </label>
-                    <textarea
-                        name="message"
-                        placeholder="Message"
-                        style={styles.formItem}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    />
-                    <div style={styles.buttons}>
-                        <button
-                            className="site-button"
-                            style={styles.button}
-                            type="submit"
-                            disabled={!isFormValid || isLoading}
-                            onMouseDown={handleSubmit}
-                        >
-                            {!isLoading ? (
-                                'Send Message'
-                            ) : (
-                                <p className="loading">Sending</p>
-                            )}
-                        </button>
-                        <div style={styles.formInfo}>
-                            <p
-                                style={Object.assign(
-                                    {},
-                                    { color: formMessageColor }
-                                )}
-                            >
-                                <b>
-                                    <sub>
-                                        {formMessage
-                                            ? `${formMessage}`
-                                            : ' All messages get forwarded straight to my personal email'}
-                                    </sub>
-                                </b>
-                            </p>
-                            <p>
-                                <sub>
-                                    {!isFormValid ? (
-                                        <span>
-                                            <b style={styles.star}>*</b> =
-                                            required
-                                        </span>
-                                    ) : (
-                                        '\xa0'
-                                    )}
-                                </sub>
-                            </p>
+            <section className="contact-layout">
+                <div className="contact-details">
+                    <h2>Find me here.</h2>
+                    <p>
+                        I am based in Los Angeles and open to conversations about full-stack
+                        software, web development, and thoughtful technical support.
+                    </p>
+                    <dl className="contact-list">
+                        <div>
+                            <dt>Email</dt>
+                            <dd><a href="mailto:christianhbragado@gmail.com">christianhbragado@gmail.com</a></dd>
                         </div>
-                    </div>
+                        <div>
+                            <dt>GitHub</dt>
+                            <dd><a href="https://github.com/ChristianBragado" target="_blank" rel="noreferrer">github.com/ChristianBragado</a></dd>
+                        </div>
+                        <div>
+                            <dt>LinkedIn</dt>
+                            <dd><a href="https://www.linkedin.com/in/christianbragado/" target="_blank" rel="noreferrer">linkedin.com/in/christianbragado</a></dd>
+                        </div>
+                    </dl>
                 </div>
-            </div>
-            <ResumeDownload altText="Need a copy of my Resume?" />
-        </div>
+
+                <form className="contact-form" onSubmit={handleSubmit}>
+                    <div className="form-field">
+                        <label htmlFor="contact-name">Your name</label>
+                        <input
+                            id="contact-name"
+                            type="text"
+                            name="name"
+                            value={values.name}
+                            onChange={(event) => updateValue('name', event.target.value)}
+                            required
+                            autoComplete="name"
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label htmlFor="contact-email">Email</label>
+                        <input
+                            id="contact-email"
+                            type="email"
+                            name="email"
+                            value={values.email}
+                            onChange={(event) => updateValue('email', event.target.value)}
+                            required
+                            autoComplete="email"
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label htmlFor="contact-company">Company <span>(optional)</span></label>
+                        <input
+                            id="contact-company"
+                            type="text"
+                            name="company"
+                            value={values.company}
+                            onChange={(event) => updateValue('company', event.target.value)}
+                            autoComplete="organization"
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label htmlFor="contact-message">Message</label>
+                        <textarea
+                            id="contact-message"
+                            name="message"
+                            value={values.message}
+                            onChange={(event) => updateValue('message', event.target.value)}
+                            required
+                            rows={7}
+                        />
+                    </div>
+                    <div className="form-submit-row">
+                        <button className="submit-button" type="submit" disabled={status === 'sending'}>
+                            {status === 'sending' ? 'Sending' : 'Send message'}
+                        </button>
+                        <p className={`form-status form-status-${status}`} role="status" aria-live="polite">
+                            {status === 'sent' && 'Message sent. I will get back to you soon.'}
+                            {status === 'fallback' && 'Opening your email app.'}
+                            {status === 'idle' && 'Required fields are marked by the browser.'}
+                        </p>
+                    </div>
+                </form>
+            </section>
+
+            <ResumeDownload altText="Prefer a quick overview?" />
+        </main>
     );
-};
-
-const styles: StyleSheetCSS = {
-    form: {
-        flexDirection: 'column',
-        marginTop: 32,
-    },
-    formItem: {
-        marginTop: 4,
-        marginBottom: 16,
-    },
-    socialImage: {
-        width: 36,
-        height: 36,
-    },
-    buttons: {
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    formInfo: {
-        textAlign: 'right',
-
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        paddingLeft: 24,
-    },
-    star: {
-        paddingRight: 4,
-        color: 'red',
-    },
-    button: {
-        minWidth: 184,
-        height: 32,
-    },
-    header: {
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
-    },
-    socials: {
-        marginBottom: 16,
-        justifyContent: 'flex-end',
-    },
-    social: {
-        width: 4,
-        height: 4,
-        // borderRadius: 1000,
-
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 8,
-    },
 };
 
 export default Contact;

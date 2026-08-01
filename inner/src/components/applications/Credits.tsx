@@ -8,12 +8,12 @@ export interface CreditsProps extends WindowAppProps {}
 const CREDITS = [
     {
         title: 'Engineering & Design',
-        rows: [['Christian Hugo', 'All']],
+        rows: [['Christian Bragado', 'All']],
     },
     {
         title: 'Modeling & Texturing',
         rows: [
-            ['Christian Hugo', 'Creativley developed'],
+            ['Christian Bragado', 'Creatively developed'],
             ['Mickael Boitte', 'Computer Model'],
             ['Sean Nicolas', 'Environment Models'],
         ],
@@ -79,7 +79,7 @@ const Credits: React.FC<CreditsProps> = (props) => {
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            bottomLeftText={'© Copyright 2022 Christian Hugo'}
+            bottomLeftText={'© 2026 Christian Bragado'}
         >
             <div
                 onMouseDown={nextSlide}
@@ -87,7 +87,7 @@ const Credits: React.FC<CreditsProps> = (props) => {
                 style={styles.credits}
             >
                 <h2>Credits</h2>
-                <p>Christianhugo.com, 2022</p>
+                <p>christianbragado.com, 2026</p>
                 <br />
                 <br />
                 <br />

@@ -1,6 +1,8 @@
 # christianbragado.com
 
-This is one of two repositories created for my portfolio website <a href="https://portfolio-website-five-zeta.vercel.app/"><samp>christianhugo.com</samp></a>. If you are looking for the 2D OS repository you can find it <a href="https://github.com/ChristianBragado/portfolio_website_inner"><samp>here</samp></a>! Thanks for taking the time to check this out. If you have any questions of comments, feel free to shoot me an email at <samp><a href="mailto:christianhbragado@gmail.com">Christianhbragado@gmail.com</a></samp> or you can DM me on twitter <a href="https://twitter.com/christian2hugo"><samp>@christian2hugo</samp></a>.
+This repository powers Christian Bragado's 3D portfolio and its embedded System 7-inspired showcase. The live site is <a href="https://portfolio-website-five-zeta.vercel.app/"><samp>portfolio-website-five-zeta.vercel.app</samp></a>. The inner showcase also runs as a standalone React app under <a href="https://github.com/ChristianBragado/portfolio_website_inner"><samp>inner/</samp></a>.
+
+For questions or opportunities, email <samp><a href="mailto:christianhbragado@gmail.com">christianhbragado@gmail.com</a></samp> or connect on <a href="https://www.linkedin.com/in/christianbragado/"><samp>LinkedIn</samp></a>.
 
 <br>
 
@@ -19,7 +21,7 @@ npm run dev
 To serve a production build:
 
 ```bash
-# Install dependencies if not already done - 'npi i'
+# Install dependencies if not already done
 
 # Build for production
 npm run build
