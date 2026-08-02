@@ -49,5 +49,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "/os"
+  "homepage": "/os",
+  "proxy": "http://localhost:8080"
 }

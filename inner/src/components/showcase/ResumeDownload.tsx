@@ -8,37 +8,17 @@ export interface ResumeDownloadProps {
 
 const ResumeDownload: React.FC<ResumeDownloadProps> = ({ altText }) => {
     return (
-        <div style={styles.resumeContainer}>
-            <img style={styles.resumePrinter} alt="" src={printer} />
-            <div style={styles.resumeContainerText}>
-                <h3>{altText ? altText : 'Looking for my resume?'}</h3>
-                <a rel="noreferrer" target="_blank" href={Resume}>
-                    <p>Click here to download it!</p>
+        <section className="resume-download" aria-label="Resume download">
+            <img className="resume-printer" alt="" src={printer} />
+            <div>
+                <p className="showcase-kicker">A printable version</p>
+                <h2>{altText || 'Want the short version?'}</h2>
+                <a className="resume-link" rel="noreferrer" target="_blank" href={Resume}>
+                    Get my resume <span aria-hidden="true">↗</span>
                 </a>
             </div>
-        </div>
+        </section>
     );
-};
-
-const styles: StyleSheetCSS = {
-    resumeContainer: {
-        backgroundColor: 'white',
-        padding: 12,
-        boxSizing: 'border-box',
-        border: '2px solid black',
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        width: '100%',
-        alignItems: 'center',
-    },
-    resumeContainerText: {
-        flexDirection: 'column',
-    },
-    resumePrinter: {
-        width: 56,
-        height: 48,
-        paddingRight: 24,
-    },
 };
 
 export default ResumeDownload;

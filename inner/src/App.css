@@ -1,5 +1,6 @@
 .App {
-    height: 100vh;
+    min-height: 100dvh;
+    height: 100%;
     /* width: 1280px; */
     width: 100%;
     /* min-height: 100%; */
