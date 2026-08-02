@@ -985,13 +985,14 @@ input:active {
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 32px;
 }
 
 .project-card {
     display: block;
     min-width: 0;
+    container: project-card / inline-size;
     border: 1px solid var(--showcase-line);
     background: var(--showcase-panel);
 }
@@ -1026,7 +1027,7 @@ input:active {
 .project-card-body {
     display: block;
     box-sizing: border-box;
-    padding: 24px;
+    padding: clamp(24px, 3vw, 32px);
 }
 
 .project-meta,
@@ -1049,47 +1050,62 @@ input:active {
 
 .project-card h2 {
     display: block;
-    margin-bottom: 12px;
+    max-width: 20ch;
+    margin-bottom: 18px;
     color: var(--showcase-ink);
     font-family: MillenniumBold, Georgia, serif;
-    font-size: 30px;
-    line-height: 1.05;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.1;
     text-wrap: balance;
 }
 
 .project-description {
     display: block;
-    margin-bottom: 24px;
+    max-width: 44ch;
+    margin-bottom: 32px;
     color: var(--showcase-ink);
     font-family: MillenniumBold, Georgia, serif;
     font-size: 18px;
-    line-height: 1.35;
+    line-height: 1.55;
 }
 
 .project-explanation {
     display: grid;
-    grid-template-columns: minmax(122px, 0.62fr) minmax(0, 1fr);
-    gap: 20px;
-    padding: 20px 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding: 24px 0;
     border-top: 1px solid var(--showcase-line);
 }
 
+.project-explanation > div {
+    display: block;
+    min-width: 0;
+}
+
+.project-explanation > div + div {
+    padding-left: 24px;
+    border-left: 1px solid var(--showcase-line);
+}
+
 .project-explanation h3 {
-    font-size: 18px;
-    line-height: 1.1;
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.2;
 }
 
 .project-explanation p {
     display: block;
+    max-width: 34ch;
     color: var(--showcase-muted);
     font-family: Millennium, Georgia, serif;
     font-size: 16px;
-    line-height: 1.45;
+    line-height: 1.6;
 }
 
 .project-footer {
     align-items: flex-end;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 18px;
     padding-top: 18px;
     border-top: 1px solid var(--showcase-line);
@@ -1438,6 +1454,14 @@ input:active {
 
     .project-explanation {
         grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .project-explanation > div + div {
+        padding-top: 18px;
+        padding-left: 0;
+        border-top: 1px solid var(--showcase-line);
+        border-left: 0;
     }
 
     .project-footer {
@@ -1456,6 +1480,20 @@ input:active {
 
     .experience-date {
         margin-bottom: 4px;
+    }
+}
+
+@container project-card (max-width: 660px) {
+    .project-explanation {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .project-explanation > div + div {
+        padding-top: 18px;
+        padding-left: 0;
+        border-top: 1px solid var(--showcase-line);
+        border-left: 0;
     }
 }
 
