@@ -204,7 +204,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div>
                             <h1>Welcome to Macintosh.</h1>
                             <p className="mac-boot-caption" style={styles.startCaption}>
-                                Christian Bragado — Portfolio Showcase 2022
+                                Christian Bragado — Portfolio Showcase 2026
                             </p>
                         </div>
                     </div>
